@@ -21,7 +21,7 @@ Sprites::~Sprites(){}
 
 std::vector< Tile > Sprites::all_tile; // all found sprite, sprite contains: tile number, palette table number, and name.
 std::vector< std::array<glm::u8vec4, 4 > > Sprites::all_palette; // all found sprite, sprite contains: tile number, palette table number, and name.
-std::vector< MySprite > Sprites::all_sprite; // all found sprite, sprite contains: tile number, palette table number, and name.
+std::unordered_map< std::string, MySprite > Sprites::all_sprite;
 std::array< uint16_t, PPU466::BackgroundWidth * PPU466::BackgroundHeight > Sprites::background;
 
 Sprites Sprites::load(std::string const &filename) {
@@ -46,23 +46,40 @@ Sprites Sprites::load(std::string const &filename) {
         }
     }
 
-    // // Build all sprite
-    // char* ptr = &AssetDeserializer::all_name[0];
-    // for(auto& data: AssetDeserializer::sprite_refs) {
-    //     std::string name(data.name_size, ' ');
-    //     memcpy(&name, ptr + data.name_index_start, (sizeof(char)) * data.name_size);
-    //     Sprite sprite;
-    //     sprite.tile_index = data.tile_index;
-    //     sprite.palette_index = data.palette_index;
-    //     sprite.name = name;
-    //     all_sprite.push_back(sprite);
+    // // Build all sprite info
+    char* ptr = &AssetDeserializer::all_name[0];
+    uint16_t* tile_idx_ptr = &AssetDeserializer::all_tile_index[0];
+    uint16_t* palette_idx_ptr = &AssetDeserializer::all_palette_index[0];
+    int16_t* offset_x_ptr = &AssetDeserializer::all_offset_x[0];
+    int16_t* offset_y_ptr = &AssetDeserializer::all_offset_y[0];
 
-    //     std::cout<<"data.tile_index = " << data.tile_index << std::endl;
-    //     std::cout<<"data.palette_index = " << data.palette_index << std::endl;
-    //     std::cout<<"data.name_start = " << data.name_index_start << std::endl;
-    //     std::cout<<"data.name_size = " << data.name_size << std::endl;
-    //     std::cout<<"name = " << name << std::endl;
-    // }
+    for(auto& data: AssetDeserializer::sprite_refs) {
+        MySprite sprite;
+        std::string name(data.name_size, ' ');
+        memcpy(&name, ptr + data.name_index_start, (sizeof(char)) * data.name_size);
+
+        // get tile index
+        // std::cout<< "tile index start: " << data.tile_index_start << std::endl;
+        // std::cout<< "tile index size: " << data.tile_index_end << std::endl;
+        // std::cout<<std::endl;
+        for (uint16_t i = data.tile_index_start; i <= data.tile_index_end; i++) {
+            sprite.tiles.push_back(all_tile[*(tile_idx_ptr + i)]);
+        }
+        // get palette index
+        for (uint16_t i = data.palette_index_start; i <= data.palette_index_end; i++) {
+            sprite.palettes.push_back(all_palette[*(palette_idx_ptr + i)]);
+        }
+        // build offsets
+        for (int16_t i = data.offset_index_start; i <= data.offset_index_end; i++) {
+            sprite.tile_offsets.push_back({*(offset_x_ptr + i), *(offset_y_ptr + i)});
+        }
+        
+        // set name
+        sprite.name = name;
+        sprite.print_info();
+        
+        all_sprite[name] = sprite;
+    }
 
     // Build background
     for (uint32_t i = 0; i < AssetDeserializer::background.size(); i++) {
