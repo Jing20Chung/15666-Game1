@@ -59,15 +59,16 @@ Sprites Sprites::load(std::string const &filename) {
         memcpy(&name, ptr + data.name_index_start, (sizeof(char)) * data.name_size);
 
         // get tile index
-        // std::cout<< "tile index start: " << data.tile_index_start << std::endl;
-        // std::cout<< "tile index size: " << data.tile_index_end << std::endl;
-        // std::cout<<std::endl;
+        
         for (uint16_t i = data.tile_index_start; i <= data.tile_index_end; i++) {
-            sprite.tiles.push_back(all_tile[*(tile_idx_ptr + i)]);
+            sprite.tiles.push_back(*(tile_idx_ptr + i));
         }
         // get palette index
+        std::cout<< "palette_index_start: " << data.palette_index_start << std::endl;
+        std::cout<< "palette_index_end: " << data.palette_index_end << std::endl;
+        std::cout<<std::endl;
         for (uint16_t i = data.palette_index_start; i <= data.palette_index_end; i++) {
-            sprite.palettes.push_back(all_palette[*(palette_idx_ptr + i)]);
+            sprite.palettes.push_back(*(palette_idx_ptr + i));
         }
         // build offsets
         for (int16_t i = data.offset_index_start; i <= data.offset_index_end; i++) {
@@ -90,6 +91,12 @@ Sprites Sprites::load(std::string const &filename) {
     return sprites;
 }
 
-MySprite Sprites::lookup(std::string const &sprite_name) {
-    return MySprite();
+MySprite* Sprites::lookup(std::string const &sprite_name) {
+    if (all_sprite.find(sprite_name) == all_sprite.end()) {
+        throw ("sprite not found");
+    }
+    else {
+        std::cout << "sprite found" << std::endl;
+        return &all_sprite[sprite_name];
+    }
 }

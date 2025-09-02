@@ -19,5 +19,5 @@ struct Sprites {
     static std::array< uint16_t, BackgroundWidth * BackgroundHeight > background;
 
     static Sprites load(std::string const &filename);
-    static MySprite lookup(std::string const &sprite_name);
+    static MySprite* lookup(std::string const &sprite_name);
 };

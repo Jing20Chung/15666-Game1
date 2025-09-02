@@ -16,10 +16,15 @@
 #include "Sprites.hpp"
 #include "DataTypes.hpp"
 
+static MySprite* player_sprite = nullptr;
+
 Load< Sprites > sprites (LoadTagDefault, []() -> Sprites const* {
 	static Sprites ret = Sprites::load("game.asset");
+	(void) player_sprite;
+	player_sprite = ret.lookup("player2");
 	return &ret;
 });
+
 
 PlayMode::PlayMode() {
 	//TODO:
@@ -119,12 +124,9 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 	// ppu.background_position.x = int32_t(-0.5f * player_at.x);
 	// ppu.background_position.y = int32_t(-0.5f * player_at.y);
 
+	uint16_t ppu_sprite_index = 0;
 	//player sprite:
-	ppu.sprites[0].x = int8_t(player_at.x);
-	ppu.sprites[0].y = int8_t(player_at.y);
-	ppu.sprites[0].index = 3;
-	ppu.sprites[0].attributes = 0;
-
+	player_sprite->draw(int8_t(player_at.x), int8_t(player_at.y), &ppu, ppu_sprite_index);
 	//--- actually draw ---
 	ppu.draw(drawable_size);
 }

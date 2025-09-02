@@ -10,9 +10,9 @@ struct MySprite {
     ~MySprite();
     
     std::string name;
-    std::vector< Tile > tiles;
-    std::vector< std::array< glm::u8vec4, 4 > > palettes;
+    std::vector< uint16_t > tiles;
+    std::vector< uint8_t > palettes;
     std::vector< std::vector< int16_t > > tile_offsets;
     void print_info();
-    void draw(uint32_t x, uint32_t y, PPU466* ppu, std::queue< uint16_t >& available_sprite_index);
+    void draw(uint32_t x, uint32_t y, PPU466* ppu, uint16_t& ppu_sprite_index);
 };
