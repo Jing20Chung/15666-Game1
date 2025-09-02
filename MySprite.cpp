@@ -52,7 +52,6 @@ void MySprite::print_info() {
 }
 
 void MySprite::draw(uint32_t x, uint32_t y, PPU466* ppu, uint16_t& ppu_sprite_index) {
-    
     // print_info();
     for (int i = 0; i < tile_offsets.size(); i++) {
         ppu->sprites[ppu_sprite_index].x = tile_offsets[i][0] + x;
@@ -61,8 +60,4 @@ void MySprite::draw(uint32_t x, uint32_t y, PPU466* ppu, uint16_t& ppu_sprite_in
         ppu->sprites[ppu_sprite_index].attributes = palettes[i];
         ppu_sprite_index++;
     }
-    // while (!available_sprite_index.empty()) {
-
-    // }
 }
-

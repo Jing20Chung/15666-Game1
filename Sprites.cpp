@@ -64,9 +64,9 @@ Sprites Sprites::load(std::string const &filename) {
             sprite.tiles.push_back(*(tile_idx_ptr + i));
         }
         // get palette index
-        std::cout<< "palette_index_start: " << data.palette_index_start << std::endl;
-        std::cout<< "palette_index_end: " << data.palette_index_end << std::endl;
-        std::cout<<std::endl;
+        // std::cout<< "palette_index_start: " << data.palette_index_start << std::endl;
+        // std::cout<< "palette_index_end: " << data.palette_index_end << std::endl;
+        // std::cout<<std::endl;
         for (uint16_t i = data.palette_index_start; i <= data.palette_index_end; i++) {
             sprite.palettes.push_back(*(palette_idx_ptr + i));
         }
