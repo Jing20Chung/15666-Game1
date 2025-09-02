@@ -29,4 +29,5 @@ void AssetDeserializer::load(const std::string& asset_file) {
     read_chunk(input_file, "eeee", &sprite_refs);
     read_chunk(input_file, "ffff", &background);
     input_file.close();
+    std::cout<< "--Success-- Deserialize file finished." << std::endl;
 }

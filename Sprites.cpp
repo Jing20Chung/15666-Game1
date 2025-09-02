@@ -64,12 +64,9 @@ Sprites Sprites::load(std::string const &filename) {
     }
 
     // Build background
-    std::cout << "background W = " << PPU466::BackgroundWidth << ", H = " << PPU466::BackgroundHeight << std::endl;
-    std::cout << "background tile count = " << AssetDeserializer::background.size() << std::endl;
     for (uint32_t i = 0; i < AssetDeserializer::background.size(); i++) {
         background[i] = AssetDeserializer::background[i];
         // background[i + AssetDeserializer::background.size()] = AssetDeserializer::background[i];
-        std::cout << "background is " << background[i] << std::endl;
     }
 
     std::cout << "all_sprite size = " << all_sprite.size() << std::endl;

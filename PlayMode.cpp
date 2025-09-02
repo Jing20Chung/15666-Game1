@@ -42,9 +42,9 @@ PlayMode::PlayMode() {
 
 	i = 0;
 	for (auto palette: sprites->all_palette) {
-		for (auto& data: palette) {
-			std::cout<< glm::to_string(data)<<std::endl;
-		}
+		// for (auto& data: palette) {
+		// 	std::cout<< glm::to_string(data)<<std::endl;
+		// }
 		ppu.palette_table[i] = palette;
 		i++;
 	}
