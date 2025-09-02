@@ -12,16 +12,14 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
 
-#include "data_path.hpp"
 #include "Load.hpp"
 #include "Sprites.hpp"
 #include "DataTypes.hpp"
 
 Load< Sprites > sprites (LoadTagDefault, []() -> Sprites const* {
-	static Sprites ret = Sprites::load(data_path("tile_map.png"));
+	static Sprites ret = Sprites::load("game.asset");
 	return &ret;
 });
-
 
 PlayMode::PlayMode() {
 	//TODO:
@@ -42,9 +40,6 @@ PlayMode::PlayMode() {
 
 	i = 0;
 	for (auto palette: sprites->all_palette) {
-		// for (auto& data: palette) {
-		// 	std::cout<< glm::to_string(data)<<std::endl;
-		// }
 		ppu.palette_table[i] = palette;
 		i++;
 	}
@@ -119,24 +114,6 @@ void PlayMode::update(float elapsed) {
 void PlayMode::draw(glm::uvec2 const &drawable_size) {
 	//--- set ppu state based on game state ---
 
-	//background color will be some hsv-like fade:
-	// ppu.background_color = glm::u8vec4(
-	// 	std::min(255,std::max(0,int32_t(255 * 0.5f * (0.5f + std::sin( 2.0f * M_PI * (background_fade + 0.0f / 3.0f) ) ) ))),
-	// 	std::min(255,std::max(0,int32_t(255 * 0.5f * (0.5f + std::sin( 2.0f * M_PI * (background_fade + 1.0f / 3.0f) ) ) ))),
-	// 	std::min(255,std::max(0,int32_t(255 * 0.5f * (0.5f + std::sin( 2.0f * M_PI * (background_fade + 2.0f / 3.0f) ) ) ))),
-	// 	0x00
-	// );
-
-	//tilemap gets recomputed every frame as some weird plasma thing:
-	//NOTE: don't do this in your game! actually make a map or something :-)
-	// for (uint32_t y = 0; y < PPU466::BackgroundHeight; ++y) {
-	// 	for (uint32_t x = 0; x < PPU466::BackgroundWidth; ++x) {
-	// 		//TODO: make weird plasma thing
-	// 		ppu.background[x+PPU466::BackgroundWidth*y] = ((x+y)%16);
-	// 	}
-	// }
-
-
 	// Disable scroll for now.
 	//background scroll:
 	// ppu.background_position.x = int32_t(-0.5f * player_at.x);
@@ -145,18 +122,8 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 	//player sprite:
 	ppu.sprites[0].x = int8_t(player_at.x);
 	ppu.sprites[0].y = int8_t(player_at.y);
-	ppu.sprites[0].index = 0;
+	ppu.sprites[0].index = 3;
 	ppu.sprites[0].attributes = 0;
-
-	//some other misc sprites:
-	// for (uint32_t i = 1; i < 63; ++i) {
-	// 	float amt = (i + 2.0f * background_fade) / 62.0f;
-	// 	ppu.sprites[i].x = int8_t(0.5f * float(PPU466::ScreenWidth) + std::cos( 2.0f * M_PI * amt * 5.0f + 0.01f * player_at.x) * 0.4f * float(PPU466::ScreenWidth));
-	// 	ppu.sprites[i].y = int8_t(0.5f * float(PPU466::ScreenHeight) + std::sin( 2.0f * M_PI * amt * 3.0f + 0.01f * player_at.y) * 0.4f * float(PPU466::ScreenWidth));
-	// 	ppu.sprites[i].index = 32;
-	// 	ppu.sprites[i].attributes = 6;
-	// 	if (i % 2) ppu.sprites[i].attributes |= 0x80; //'behind' bit
-	// }
 
 	//--- actually draw ---
 	ppu.draw(drawable_size);

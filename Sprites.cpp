@@ -24,7 +24,7 @@ std::vector< Sprite > Sprites::all_sprite; // all found sprite, sprite contains:
 std::array< uint16_t, PPU466::BackgroundWidth * PPU466::BackgroundHeight > Sprites::background;
 
 Sprites Sprites::load(std::string const &filename) {
-    AssetDeserializer::load(data_path("game.asset"));
+    AssetDeserializer::load(data_path(filename));
     Sprites sprites;
     // Build all tile from flat bits
     for (uint16_t i = 0; i < AssetDeserializer::flat_tile_bit0.size(); i+=8) {
@@ -56,17 +56,16 @@ Sprites Sprites::load(std::string const &filename) {
         sprite.name = name;
         all_sprite.push_back(sprite);
 
-        // std::cout<<"data.tile_index = " << data.tile_index << std::endl;
-        // std::cout<<"data.palette_index = " << data.palette_index << std::endl;
-        // std::cout<<"data.name_start = " << data.name_index_start << std::endl;
-        // std::cout<<"data.name_size = " << data.name_size << std::endl;
-        // std::cout<<"name = " << name << std::endl;
+        std::cout<<"data.tile_index = " << data.tile_index << std::endl;
+        std::cout<<"data.palette_index = " << data.palette_index << std::endl;
+        std::cout<<"data.name_start = " << data.name_index_start << std::endl;
+        std::cout<<"data.name_size = " << data.name_size << std::endl;
+        std::cout<<"name = " << name << std::endl;
     }
 
     // Build background
     for (uint32_t i = 0; i < AssetDeserializer::background.size(); i++) {
         background[i] = AssetDeserializer::background[i];
-        // background[i + AssetDeserializer::background.size()] = AssetDeserializer::background[i];
     }
 
     std::cout << "all_sprite size = " << all_sprite.size() << std::endl;
