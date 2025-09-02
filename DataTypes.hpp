@@ -9,16 +9,29 @@ struct Tile {
 static_assert(sizeof(Tile) == 16, "Tile is packed");
 
 struct SpriteRef {
-    uint16_t tile_index;
-    uint16_t palette_index;
+    uint16_t tile_index_start;
+    uint16_t tile_index_end;
+    uint16_t palette_index_start;
+    uint16_t palette_index_end;
     uint16_t name_index_start;
     uint16_t name_size;
+    uint16_t size_x;
+    uint16_t size_y;
+    int16_t offset_index_start;
+    int16_t offset_index_end;
 };
-static_assert(sizeof(SpriteRef) == 8, "SpriteRef is packed");
+static_assert(sizeof(SpriteRef) == 20, "SpriteRef is packed");
 
-struct Sprite {
+struct SpritePiece {
     uint16_t tile_index;
     uint8_t palette_index;
+};
+
+struct SpriteInfo {
+    std::vector< int > size;
+    std::vector< std::vector< int > > offsets;
+    std::vector< uint16_t > tile_indexes;
+    std::vector< uint8_t > palette_indexes;
     std::string name;
 };
 

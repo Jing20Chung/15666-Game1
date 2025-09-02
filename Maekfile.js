@@ -113,6 +113,7 @@ if (maek.OS === 'windows') {
 //returns objFile: objFileBase + a platform-dependant suffix ('.o' or '.obj')
 const game_objs = [
 	maek.CPP('AssetDeserializer.cpp'),
+	maek.CPP('MySprite.cpp'),
 	maek.CPP('Sprites.cpp'),
 	maek.CPP('PlayMode.cpp'),
 	maek.CPP('PPU466.cpp'),
