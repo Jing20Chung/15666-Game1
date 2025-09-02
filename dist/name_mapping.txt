@@ -1,0 +1,4 @@
+player
+brick01
+empty
+player2
