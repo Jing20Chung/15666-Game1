@@ -15,8 +15,11 @@
 #include "Load.hpp"
 #include "Sprites.hpp"
 #include "DataTypes.hpp"
+#include "Player.hpp"
 
 static MySprite* player_sprite = nullptr;
+static Player* player_ref = nullptr;
+// static MySprite* ground_sprite = nullptr;
 
 Load< Sprites > sprites (LoadTagDefault, []() -> Sprites const* {
 	static Sprites ret = Sprites::load("game.asset");
@@ -35,7 +38,9 @@ PlayMode::PlayMode() {
 	//   and check that script into your repository.
 
 	//Also, *don't* use these tiles in your game:
-
+	player_ref = new Player();
+	player_ref->set_init_pos(glm::vec2(120, 0));
+	
 	uint16_t i = 0;
 	for (auto tile: sprites->all_tile) {
 		ppu.tile_table[i].bit0 = tile.bit0;
@@ -96,18 +101,15 @@ bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size)
 	return false;
 }
 
-void PlayMode::update(float elapsed) {
 
+void PlayMode::update(float elapsed) {
 	//slowly rotates through [0,1):
 	// (will be used to set background color)
-	background_fade += elapsed / 10.0f;
-	background_fade -= std::floor(background_fade);
-
-	constexpr float PlayerSpeed = 30.0f;
-	if (left.pressed) player_at.x -= PlayerSpeed * elapsed;
-	if (right.pressed) player_at.x += PlayerSpeed * elapsed;
-	if (down.pressed) player_at.y -= PlayerSpeed * elapsed;
-	if (up.pressed) player_at.y += PlayerSpeed * elapsed;
+	// background_fade += elapsed / 10.0f;
+	// background_fade -= std::floor(background_fade);
+	
+	player_ref->update_input(left.pressed, right.pressed, down.pressed, up.pressed);
+	player_at = player_ref->move(elapsed);
 
 	//reset button press counters:
 	left.downs = 0;
