@@ -67,7 +67,7 @@ int main(int argc, char **argv) {
 
 	//create window:
 	Mode::window = SDL_CreateWindow(
-		"gp25 game1: remember to change your title", //TODO: remember to set a title for your game!
+		"gp25 game1: Go For The Claw", //TODO: remember to set a title for your game!
 		2*PPU466::ScreenWidth + 8, 2*PPU466::ScreenHeight + 8, //TODO: modify window size if you'd like
 		SDL_WINDOW_OPENGL
 		| SDL_WINDOW_RESIZABLE //uncomment to allow resizing
@@ -146,7 +146,7 @@ int main(int argc, char **argv) {
 				} else if (evt.type == SDL_EVENT_QUIT) {
 					Mode::set_current(nullptr);
 					break;
-				} else if (evt.type == SDL_EVENT_KEY_DOWN && evt.key.key == SDLK_PRINTSCREEN) {
+				} else if (evt.type == SDL_EVENT_KEY_DOWN && evt.key.key == SDLK_BACKSPACE) {
 					// --- screenshot key ---
 					std::string filename = "screenshot.png";
 					std::cout << "Saving screenshot to '" << filename << "'." << std::endl;

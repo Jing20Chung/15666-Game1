@@ -45,18 +45,18 @@ glm::vec2 Player::move(float elapsed) {
 	position.y += velocity.y;
 
 	// check boundary
-	if (position.x + velocity.x > 240) {
-		position.x = 240;
+	if (position.x + velocity.x > 205) {
+		position.x = 205;
 	}
-	else if (position.x + velocity.x < 10) {
-		position.x = 10;
+	else if (position.x + velocity.x < 45) {
+		position.x = 45;
 	}
 
 	if (position.y < 10) {
 		position.y = 10;
 	}
-	else if (position.y > 100) {
-		position.y = 100;
+	else if (position.y > 200) {
+		position.y = 200;
 	}
 
     return position;
