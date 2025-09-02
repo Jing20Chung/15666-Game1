@@ -6,6 +6,7 @@
 #include <vector>
 #include <deque>
 
+
 struct PlayMode : Mode {
 	PlayMode();
 	virtual ~PlayMode();

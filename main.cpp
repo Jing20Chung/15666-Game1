@@ -13,6 +13,9 @@
 //for screenshots:
 #include "load_save_png.hpp"
 
+#include "Sprites.hpp"
+#include "DataTypes.hpp"
+
 //Includes for libSDL:
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
